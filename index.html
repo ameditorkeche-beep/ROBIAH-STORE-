@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - Robiah Store</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-image: url('https://raw.githubusercontent.com/NdikzDatabase/Database/main/Database/1758297477296-7amihq.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: -1;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(255, 0, 128, 0.5);
+            margin: 40px 0;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 0, 128, 0.3);
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            font-size: 40px;
+            color: #ff0080;
+            margin-bottom: 10px;
+        }
+        
+        h1 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: #ff0080;
+            text-shadow: 0 0 10px rgba(255, 0, 128, 0.5);
+        }
+        
+        .welcome-text {
+            text-align: center;
+            margin-bottom: 25px;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        
+        .watermark {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 14px;
+            color: #aaa;
+        }
+        
+        .watermark h2 {
+            font-size: 18px;
+            color: #ff0080;
+            margin-bottom: 5px;
+        }
+        
+        .payment-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            background: linear-gradient(45deg, #ff0080, #8000ff);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn:before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(45deg);
+            transition: all 0.5s ease;
+            z-index: 0;
+        }
+        
+        .btn:hover:before {
+            transform: rotate(45deg) translate(50px, 50px);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn i {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        
+        .products {
+            margin: 30px 0;
+        }
+        
+        .products h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #ff0080;
+            font-size: 22px;
+        }
+        
+        .product-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+        
+        .product-list li {
+            background: rgba(255, 0, 128, 0.2);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 0, 128, 0.3);
+        }
+        
+        .product-list li:hover {
+            background: rgba(255, 0, 128, 0.3);
+            transform: translateY(-3px);
+        }
+        
+        .closing-text {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #ff0080;
+            text-shadow: 0 0 5px rgba(255, 0, 128, 0.5);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #aaa;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .product-list {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Animasi untuk elemen */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .container {
+            animation: fadeIn 1s ease;
+        }
+        
+        .btn {
+            animation: fadeIn 1s ease;
+            animation-fill-mode: both;
+        }
+        
+        .btn:nth-child(1) { animation-delay: 0.2s; }
+        .btn:nth-child(2) { animation-delay: 0.4s; }
+        .btn:nth-child(3) { animation-delay: 0.6s; }
+        
+        .product-list li {
+            animation: fadeIn 1s ease;
+            animation-fill-mode: both;
+        }
+        
+        .product-list li:nth-child(1) { animation-delay: 0.1s; }
+        .product-list li:nth-child(2) { animation-delay: 0.2s; }
+        .product-list li:nth-child(3) { animation-delay: 0.3s; }
+        .product-list li:nth-child(4) { animation-delay: 0.4s; }
+        .product-list li:nth-child(5) { animation-delay: 0.5s; }
+        .product-list li:nth-child(6) { animation-delay: 0.6s; }
+        .product-list li:nth-child(7) { animation-delay: 0.7s; }
+        .product-list li:nth-child(8) { animation-delay: 0.8s; }
+        .product-list li:nth-child(9) { animation-delay: 0.9s; }
+        .product-list li:nth-child(10) { animation-delay: 1.0s; }
+    </style>
+</head>
+<body>
+    <div class="overlay"></div>
+    
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-store"></i>
+            </div>
+            <h1>ROBIAH STORE</h1>
+        </header>
+        
+        <div class="welcome-text">
+            <p>SELAMAT DATANG DI WEB PAYMENT ROBIAH STORE SILAHKAN MELAKUKAN TRANSAKSI DENGAN METODE DI BAWAH DAN JANGAN LUPA SS BUKPEM KE ADMIN</p>
+        </div>
+        
+        <div class="watermark">
+            <h2>WEB ROBIAH STORE</h2>
+        </div>
+        
+        <div class="payment-methods">
+            <a href="https://whatsapp.com/channel/0029Vb6E3RqISTkSEYYDMF1h" class="btn">
+                <i class="fab fa-whatsapp"></i> SALURAN
+            </a>
+            
+            <a href="#" class="btn" onclick="alert('INFORMASI REKENING NO DANA 085326650918 A/N ROBIAH STORE'); return false;">
+                <i class="fas fa-money-bill-wave"></i> DANA
+            </a>
+            
+            <a href="https://heylink.me/Robih.Script.0.1/" class="btn">
+                <i class="fas fa-users"></i> GRUB
+            </a>
+        </div>
+        
+        <div class="products">
+            <h2>LIST PRODUCT</h2>
+            <ul class="product-list">
+                <li>BOT PUSH KONTAK</li>
+                <li>JASA JAGA GRUP</li>
+                <li>WEB PHISING</li>
+                <li>WEB SUNTIK SOSMED</li>
+                <li>SUNTIK SOSMED</li>
+                <li>REQ NAME SC</li>
+                <li>BANNED WA PERMA</li>
+                <li>APK CEK BAND</li>
+                <li>MUR BAN</li>
+                <li>MUR UNBAN</li>
+            </ul>
+        </div>
+        
+        <div class="closing-text">
+            <p>TERIMA KASIH TELAH MEMPERCAYAI ROBIHH SCRIPT 0.1🔥</p>
+        </div>
+    </div>
+    
+    <footer>
+        <p>© revizahoshii jasa create web since 2024</p>
+    </footer>
+</body>
+</html>
